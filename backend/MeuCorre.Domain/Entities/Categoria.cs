@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeuCorre.core.Entities
+namespace MeuCorre.Domain.Entities
 {
     public class Categoria : Entidade 
     {
@@ -14,13 +14,19 @@ namespace MeuCorre.core.Entities
         public TipoTransacao Tipo { get; set; }
         public string Cor { get; set; }
         public string Icone { get; set; }
-        public Usuario UsuarioId { get; set; }
+        public Guid? UsuarioId { get; set; }
         public bool Ativo { get; set; }
 
 
-        public Categoria(string nome, string descricao, Enum tipo, string cor, string icone, Usuario.Id usuarioId, bool ativo)
+        public Categoria(string nome, string descricao, TipoTransacao tipo, string cor, string icone, Guid? usuarioId, bool ativo)
         {
-            
+            Nome = nome;
+            Descricao = descricao;
+            Tipo = tipo;
+            Cor = cor;
+            Icone = icone;
+            UsuarioId = usuarioId;
+            Ativo = ativo;
         }
     }
 }
