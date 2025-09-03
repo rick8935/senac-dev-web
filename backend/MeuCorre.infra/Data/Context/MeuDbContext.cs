@@ -1,4 +1,4 @@
-﻿using MeuCorre.core.Entities;
+﻿using MeuCorre.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

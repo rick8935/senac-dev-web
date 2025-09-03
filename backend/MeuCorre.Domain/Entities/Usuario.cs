@@ -14,10 +14,16 @@ namespace MeuCorre.Domain.Entities
         public DateTime DataNascimento { get; private set; }
         public bool Ativo { get; private set; }
 
-        public Usuario(string nome, string email, DateTime dataNascimento, bool ativo)
+        public Usuario(string nome, string email, string senha, DateTime dataNascimento, bool ativo)
         {
+            if(!TemIdadeMinima())
+            {
+                throw new Exception("Usuário deve ter no mínimo 13 anos.");
+            }
+
             Nome = nome;
             Email = email;
+            Senha = ValidarSenha(senha);
             DataNascimento = DataNascimento;
             Ativo = ativo;
         }
@@ -37,6 +43,15 @@ namespace MeuCorre.Domain.Entities
         {
             var resultado = CalcularIdade() >= 13;
             return resultado;
+        }
+
+        public string ValidarSenha(string senha)
+        {
+            if(senha.Length < 6)
+            {
+
+            }
+            return senha;
         }
 
         public void AtivarUsuario()
