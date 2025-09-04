@@ -1,4 +1,4 @@
-﻿using MeuCorre.core.Enums;
+﻿using MeuCorre.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,11 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MeuCorre.infra
 {
@@ -17,8 +12,7 @@ namespace MeuCorre.infra
             var connectionString = configuration.GetConnectionString("Mysql");
 
             services.AddDbContext<MeuDbContext>(options =>
-                options.UseMySql(connectionString,
-                ServerVersion.AutoDetect(connectionString))
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             );
             return services;
         }
