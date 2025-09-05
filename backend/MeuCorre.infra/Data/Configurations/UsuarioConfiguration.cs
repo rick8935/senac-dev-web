@@ -19,7 +19,6 @@ namespace MeuCorre.infra.Data.Configurations
             builder.Property(usuario => usuario.Ativo).IsRequired();
             builder.Property(usuario => usuario.DataCriacao).IsRequired();
             builder.Property(usuario => usuario.DataAtualizacao).IsRequired(false);
-            builder.HasIndex(usuario => usuario.Email).IsUnique();
         }
     }
 }
