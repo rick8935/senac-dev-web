@@ -15,10 +15,10 @@
     <Folder Include="UserCases\Categorias\" />
     <Folder Include="UserCases\Relatorios\" />
     <Folder Include="UserCases\Transacoes\" />
-    <Folder Include="UserCases\Usuarios\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.5.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
   </ItemGroup>

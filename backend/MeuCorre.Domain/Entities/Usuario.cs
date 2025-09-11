@@ -26,7 +26,7 @@ namespace MeuCorre.Domain.Entities
             Nome = nome;
             Email = email;
             Senha = ValidarSenha(senha);
-            DataNascimento = DataNascimento;
+            DataNascimento = dataNascimento;
             Ativo = ativo;
         }
 

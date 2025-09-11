@@ -1,4 +1,6 @@
-﻿using MeuCorre.infra.Data.Context;
+﻿using MeuCorre.Domain.Interfaces.Repositories;
+using MeuCorre.infra.Data.Context;
+using MeuCorre.infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,9 @@ namespace MeuCorre.infra
             services.AddDbContext<MeuDbContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             );
+
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
             return services;
         }
     }

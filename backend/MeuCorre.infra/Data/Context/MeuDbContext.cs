@@ -5,7 +5,7 @@ namespace MeuCorre.infra.Data.Context
 {
     public class MeuDbContext : DbContext
     {
-        public MeuDbContext(DbContextOptions<DbContext> opcoes) : base(opcoes)
+        public MeuDbContext(DbContextOptions<MeuDbContext> opcoes) : base(opcoes)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ChangeTracker.AutoDetectChangesEnabled = false;
