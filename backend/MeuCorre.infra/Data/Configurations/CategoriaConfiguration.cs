@@ -14,7 +14,7 @@ namespace MeuCorre.infra.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Categoria> builder)
         {
-            builder.ToTable("Usuarios");
+            builder.ToTable("Categorias");
             builder.HasKey(categoria => categoria.Id);
             builder.Property(categoria => categoria.Nome).IsRequired().HasMaxLength(100);
             builder.Property(categoria => categoria.Ativo).IsRequired();

@@ -18,33 +18,27 @@ namespace MeuCorre.Application.UserCases.Usuarios.Commands
         [Required(ErrorMessage = "Data de nascimento é obrigatorio")]
         public required DateTime DataNascimento { get; set; }
     }
-}
 
-internal class CriarUsuarioCommandHandler : IRequestHandler<CriarUsuarioCommand, (string, bool)>
-{
-    private readonly IUsuarioRepository _usuarioRepository;
-    public CriarUsuarioCommandHandler(IUsuarioRepository usuarioRepository)
+    internal class CriarUsuarioCommandHandler : IRequestHandler<CriarUsuarioCommand, (string, bool)>
     {
-        _usuarioRepository = usuarioRepository;
-    }
-    public async Task<(string, bool)> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
-    {
-        var usuarioExistente = await _usuarioRepository.ObterUsuarioPorEmail(request.Email);
-        if (usuarioExistente != null)
+        private readonly IUsuarioRepository _usuarioRepository;
+        public CriarUsuarioCommandHandler(IUsuarioRepository usuarioRepository)
         {
-            return ("Já existe usuário cadastrado com este email.", false);
+            _usuarioRepository = usuarioRepository;
         }
-
-        var ano = DateTime.Now.Year;
-        var idade = ano - request.DataNascimento.Year;
-        if(idade < 13)
+        public async Task<(string, bool)> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
         {
-            return ("Usuário deve ser maior de 13 anos.", false);
+            var usuarioExistente = await _usuarioRepository.ObterUsuarioPorEmail(request.Email);
+            if (usuarioExistente != null)
+            {
+                return ("Já existe usuário cadastrado com este email.", false);
+            }
+
+            var novoUsuario = new Usuario(request.Nome, request.Email, request.Senha, request.DataNascimento, true);
+
+            await _usuarioRepository.CriarUsuarioAsync(novoUsuario);
+            return ("Usuário criado com sucesso", true);
         }
-
-        var novoUsuario = new Usuario(request.Nome, request.Email, request.Senha, request.DataNascimento, true);
-
-        await _usuarioRepository.CriarUsuarioAsync(novoUsuario);
-        return ("Usuário criado com sucesso", true);
     }
+
 }
