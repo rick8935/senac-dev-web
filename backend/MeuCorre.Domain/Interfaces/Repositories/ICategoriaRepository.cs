@@ -12,5 +12,7 @@ namespace MeuCorre.Domain.Interfaces.Repositories
         Task AdicinarAsync(Categoria categoria);
         Task AtualizarAsync(Categoria categoria);
         Task RemoverAsync(Categoria categoria);
+        Task<Usuario?> ObterUsuarioPorEmail(string email);
+        Task<Usuario?> ObterUsuarioPorId(Guid id);
     }
 }

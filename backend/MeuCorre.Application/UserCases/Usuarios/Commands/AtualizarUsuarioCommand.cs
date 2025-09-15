@@ -1,15 +1,18 @@
-﻿using MediatR;
-using MeuCorre.Application.UserCases.Usuarios.Commands;
-using MeuCorre.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
 using MeuCorre.Domain.Interfaces.Repositories;
-using System.ComponentModel.DataAnnotations;
 
-namespace MeuCorre.Application.UserCases.Usuarios.Commands
+namespace MeuCorre.Application.UseCases.Usuarios.Commands
 {
-    public class AtualizarUsuarioCommand :IRequest<(string, bool)>
+    public class AtualizarUsuarioCommand : IRequest<(string, bool)>
     {
-        public string Nome { get; set; }
-        public string Email { get; set; }
+        [Required(ErrorMessage = "É necessário informar o Id para atualizar os dados")]
+        public required Guid Id { get; set; }
+
+        [Required(ErrorMessage = "Nome é obrigatório")]
+        public required string Nome { get; set; }
+
+        [Required(ErrorMessage = "Data de Nascimento é obrigatória")]
         public DateTime DataNascimento { get; set; }
     }
 
@@ -20,14 +23,20 @@ namespace MeuCorre.Application.UserCases.Usuarios.Commands
         {
             _usuarioRepository = usuarioRepository;
         }
+
         public async Task<(string, bool)> Handle(AtualizarUsuarioCommand request, CancellationToken cancellationToken)
         {
-            var atualizarUsuario = new Usuario(request.Nome, request.Email, request.DataNascimento);
+            var usuario = await _usuarioRepository.ObterUsuarioPorId(request.Id);
+            if (usuario == null)
+            {
+                return ("Usuário não encontrado.", false);
+            }
 
-            await _usuarioRepository.AtualizarUsuarioAsync(atualizarUsuario);
+            usuario.AtualizarInformacoes(request.Nome, request.DataNascimento);
+
+            await _usuarioRepository.AtualizarUsuarioAsync(usuario);
+
             return ("Usuário atualizado com sucesso", true);
         }
     }
 }
-
-
