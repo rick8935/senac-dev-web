@@ -3,10 +3,10 @@ using MeuCorre.Domain.Enums;
 
 namespace MeuCorre.Domain.Interfaces.Repositories
 {
-    internal interface ICategoriaRepository
+    public interface ICategoriaRepository
     {
-        Task<Categoria> ObterPorIdAsync(Guid id);
-        Task<IEnumerable<Categoria>> ObterTodosAsync(Guid usuarioId);
+        Task<Categoria?> ObterPorIdAsync(Guid id);
+        Task<IEnumerable<Categoria>> ListarTodasPorUsuarioAsync(Guid usuarioId);
         Task<bool> ExisteAsync(Guid id);
         Task<bool> NomeExisteParaUsuarioAsync(string nome, Guid usuarioId, TipoTransacao tipoTransacao);
         Task AdicinarAsync(Categoria categoria);
