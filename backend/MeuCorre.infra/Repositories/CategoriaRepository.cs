@@ -13,19 +13,22 @@ namespace MeuCorre.infra.Repositories
         {
             _meuDbContext = meuDbContext;
         }
-        public Task AdicinarAsync(Categoria categoria)
+        public async Task AdicinarAsync(Categoria categoria)
         {
-            throw new NotImplementedException();
+            _meuDbContext.Categorias.Add(categoria);
+            await _meuDbContext.SaveChangesAsync();
         }
 
-        public Task AtualizarAsync(Categoria categoria)
+        public async Task AtualizarAsync(Categoria categoria)
         {
-            throw new NotImplementedException();
+            _meuDbContext.Categorias.Update(categoria);
+            await _meuDbContext.SaveChangesAsync();
         }
 
-        public Task<bool> ExisteAsync(Guid id)
+        public async Task<bool> ExisteAsync(Guid categoriaId)
         {
-            throw new NotImplementedException();
+            var existe = await _meuDbContext.Categorias.AnyAsync(c => c.Id == categoriaId);
+            return existe;
         }
 
         public async Task<IEnumerable<Categoria>> ListarTodasPorUsuarioAsync(Guid usuarioId)
@@ -34,9 +37,10 @@ namespace MeuCorre.infra.Repositories
             return listaCategorias;
         }
 
-        public Task<bool> NomeExisteParaUsuarioAsync(string nome, Guid usuarioId, TipoTransacao tipoTransacao)
+        public async Task<bool> NomeExisteParaUsuarioAsync(string nome, Guid usuarioId, TipoTransacao tipoTransacao)
         {
-            throw new NotImplementedException();
+            var existe = await _meuDbContext.Categorias.AnyAsync(c => c.Nome == nome && c.UsuarioId == usuarioId && c.TipoTransacao == tipoTransacao);
+            return existe;
         }
 
         public async Task<Categoria?> ObterPorIdAsync(Guid categoriaId)
