@@ -23,7 +23,7 @@ namespace MeuCorre.Domain.Entities
 
         public virtual Usuario Usuario { get; private set; }
 
-        public Categoria(string nome, string? descricao, TipoTransacao tipoTransacao, string? cor, string? icone, Guid? usuarioId, bool ativo)
+        public Categoria(string nome, string? descricao, TipoTransacao tipoTransacao, string? cor, string? icone, Guid? usuarioId)
         {
             ValidarEntidadeCategoria(cor);
 

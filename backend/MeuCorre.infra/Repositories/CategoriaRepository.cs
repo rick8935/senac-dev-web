@@ -43,6 +43,16 @@ namespace MeuCorre.infra.Repositories
             return existe;
         }
 
+        public Task<bool> NomeExisteParaUsuarioAsync(string nome, TipoTransacao tipoTransacao, Guid usuarioId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object NomeExisteParaUsuarioAsync(string nome, TipoTransacao tipoTransacao, Guid? usuarioId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Categoria?> ObterPorIdAsync(Guid categoriaId)
         {
             var categoria =

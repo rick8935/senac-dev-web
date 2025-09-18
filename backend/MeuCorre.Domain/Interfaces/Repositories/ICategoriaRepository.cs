@@ -14,5 +14,7 @@ namespace MeuCorre.Domain.Interfaces.Repositories
         Task RemoverAsync(Categoria categoria);
         Task<Usuario?> ObterUsuarioPorEmail(string email);
         Task<Usuario?> ObterUsuarioPorId(Guid id);
+        Task<bool> NomeExisteParaUsuarioAsync(string nome, TipoTransacao tipoTransacao, Guid usuarioId);
+        object NomeExisteParaUsuarioAsync(string nome, TipoTransacao tipoTransacao, Guid? usuarioId);
     }
 }
