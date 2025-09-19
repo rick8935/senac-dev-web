@@ -18,6 +18,8 @@ namespace MeuCorre.infra
             );
 
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+
 
             return services;
         }
