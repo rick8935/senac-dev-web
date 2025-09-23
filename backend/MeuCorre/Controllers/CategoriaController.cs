@@ -1,7 +1,10 @@
 ﻿using MediatR;
 using MeuCorre.Application.UserCases.Categorias.Commands;
+using MeuCorre.Application.UserCases.Categorias.DTOs;
+using MeuCorre.Application.UserCases.Categorias.Queries;
 using MeuCorre.Application.UserCases.Usuarios.Commands;
 using Microsoft.AspNetCore.Mvc;
+using System.Formats.Asn1;
 
 namespace MeuCorre.Controllers
 {
@@ -16,6 +19,9 @@ namespace MeuCorre.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(CategoriaDto), 201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
 
         public async Task<IActionResult> CriarCategoria([FromBody] CriarCategoriaCommand command)
         {
@@ -42,6 +48,76 @@ namespace MeuCorre.Controllers
             else
             {
                 return BadRequest(mensagem);
+            }
+        }
+
+        [HttpDelete]
+
+        public async Task<IActionResult> DeletarCategoria([FromBody] DeletarCategoriaCommand command)
+        {
+            var (mensagem, sucesso) = await _mediator.Send(command);
+            if(sucesso)
+            {
+                return Ok(mensagem);
+            }
+            else
+            {
+                return BadRequest(mensagem);
+            }
+        }
+
+        [HttpPatch("ativar/{id}")]
+
+        public async Task<IActionResult> AtivarCategoria(Guid id, [FromBody] bool ativo)
+        {
+            var command = new AtivarCategoriaCommand { CategoriaId = id };
+            var (mensagem, sucesso) = await _mediator.Send(command);
+            if(sucesso)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest(mensagem);
+
+            }
+        }
+
+        [HttpPatch("inativar/{id}")]
+
+        public async Task<IActionResult> InativarCategoria(Guid id, [FromBody] bool ativo)
+        {
+            var command = new InativarCategoriaCommand { CategoriaId = id };
+            var (mensagem, sucesso) = await _mediator.Send(command);
+            if (sucesso)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest(mensagem);
+            }
+        }
+
+        public async Task<IActionResult> ObterCategoriasPorUsuario([FromQuery] ListarTodasCategoriasQuery query)
+        {
+            var categorias = await _mediator.Send(query);
+            return Ok(categorias);
+        }
+
+        [HttpGet("{id}")]
+
+        public async Task<IActionResult> ObterCategoriasPorId(Guid id)
+        {
+            var query = new ObterCategoriaQuery() { CategoriaId = id };
+            var categoria = await _mediator.Send(query);
+            if(categoria == null)
+            {
+                return NotFound("Categoria não encontrada");
+            }
+            else
+            {
+                return Ok(categoria);
             }
         }
     }
