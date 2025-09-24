@@ -41,9 +41,9 @@ namespace MeuCorre.infra.Repositories
             return await _meuDbContext.Usuarios.FirstOrDefaultAsync(usuario => usuario.Email == email);
         }
 
-        public Task<Usuario?> ObterUsuarioPorId(Guid id)
+        public async Task<Usuario?> ObterUsuarioPorId(Guid id)
         {
-            throw new NotImplementedException();
+            return await _meuDbContext.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
         }
     }
 }
