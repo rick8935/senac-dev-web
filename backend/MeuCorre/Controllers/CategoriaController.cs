@@ -67,8 +67,7 @@ namespace MeuCorre.Controllers
         }
 
         [HttpPatch("ativar/{id}")]
-
-        public async Task<IActionResult> AtivarCategoria(Guid id, [FromBody] bool ativo)
+        public async Task<IActionResult> AtivarCategoria(Guid id)
         {
             var command = new AtivarCategoriaCommand { CategoriaId = id };
             var (mensagem, sucesso) = await _mediator.Send(command);
@@ -84,8 +83,7 @@ namespace MeuCorre.Controllers
         }
 
         [HttpPatch("inativar/{id}")]
-
-        public async Task<IActionResult> InativarCategoria(Guid id, [FromBody] bool ativo)
+        public async Task<IActionResult> InativarCategoria(Guid id)
         {
             var command = new InativarCategoriaCommand { CategoriaId = id };
             var (mensagem, sucesso) = await _mediator.Send(command);
