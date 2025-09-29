@@ -3,10 +3,10 @@ using MeuCorre.Domain.Enums;
 
 namespace MeuCorre.Domain.Interfaces.Repositories
 {
-    internal interface ICategoriaRepository
+    public interface ICategoriaRepository
     {
-        Task<Categoria> ObterPorIdAsync(Guid id);
-        Task<IEnumerable<Categoria>> ObterTodosAsync(Guid usuarioId);
+        Task<Categoria?> ObterPorIdAsync(Guid id);
+        Task<IEnumerable<Categoria>> ListarTodasPorUsuarioAsync(Guid usuarioId);
         Task<bool> ExisteAsync(Guid id);
         Task<bool> NomeExisteParaUsuarioAsync(string nome, Guid usuarioId, TipoTransacao tipoTransacao);
         Task AdicinarAsync(Categoria categoria);
@@ -14,5 +14,7 @@ namespace MeuCorre.Domain.Interfaces.Repositories
         Task RemoverAsync(Categoria categoria);
         Task<Usuario?> ObterUsuarioPorEmail(string email);
         Task<Usuario?> ObterUsuarioPorId(Guid id);
+        Task<bool> NomeExisteParaUsuarioAsync(string nome, TipoTransacao tipoTransacao, Guid usuarioId);
+        object NomeExisteParaUsuarioAsync(string nome, TipoTransacao tipoTransacao, Guid? usuarioId);
     }
 }
