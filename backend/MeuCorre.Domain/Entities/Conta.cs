@@ -12,7 +12,7 @@ namespace MeuCorre.Domain.Entities
     public class Conta : Entidade
     {
         public required string Nome { get; set; }
-        public required TipoTransacao TipoTransacao { get; set; }
+        public required TipoConta Tipo { get; set; }
         public required decimal Saldo { get; set; }
         public required Guid UsuarioId { get; set; }
         public required bool Ativo { get; set; }
