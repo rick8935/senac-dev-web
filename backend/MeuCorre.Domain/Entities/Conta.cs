@@ -16,7 +16,7 @@ namespace MeuCorre.Domain.Entities
         public required decimal Saldo { get; set; }
         public required Guid UsuarioId { get; set; }
         public required bool Ativo { get; set; }
-        public decimal? Limite { get; set; }
+        public TipoLimite? Limite { get; set; }
         public DateTime? DiaFechamento { get; set; }
         public DateTime? DiaVencimento { get; set; }
         public string? Cor { get; set; }
@@ -24,9 +24,9 @@ namespace MeuCorre.Domain.Entities
 
         public virtual Usuario Usuario { get; private set; }
 
-        public string EhCartaoCredito(bool ehCartao)
+        public string EhCartaoCredito()
         {
-            if(ehCartao == true)
+            if(Tipo == TipoConta.CartaoCredito)
             {
                 return "É cartão de crédito";
             }
@@ -36,9 +36,9 @@ namespace MeuCorre.Domain.Entities
             }
         }
 
-        public string EhCarteira(bool ehCarteira)
+        public string EhCarteira()
         {
-            if (ehCarteira == true)
+            if (Tipo == TipoConta.Carteira)
             {
                 return "É carteira";
             }
@@ -48,12 +48,9 @@ namespace MeuCorre.Domain.Entities
             }
         }
 
-        public decimal CalcularLimiteDisponivel()
+        public decimal CalcularLimiteDisponivel(decimal limite)
         {
-            var limite = Limite;
-            var saldo = Saldo;
-
-            var limiteDisponivel = (limite.Value - saldo);
+            var limiteDisponivel = (limite - Saldo);
             return limiteDisponivel;
         }
 
