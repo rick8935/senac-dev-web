@@ -10,6 +10,7 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Mappers\" />
     <Folder Include="Common\" />
+    <Folder Include="UserCases\Contas\" />
     <Folder Include="Validators\" />
     <Folder Include="UserCases\Relatorios\" />
     <Folder Include="UserCases\Transacoes\" />
