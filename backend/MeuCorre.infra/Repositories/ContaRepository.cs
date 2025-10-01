@@ -19,6 +19,12 @@ namespace MeuCorre.infra.Repositories
             _meuDbContext = meuDbContext;
         }
 
+        public async Task AdicionarAsync(Conta conta)
+        {
+            await _meuDbContext.Contas.AddAsync(conta);
+            await _meuDbContext.SaveChangesAsync();
+        }
+
         public async Task<decimal> CalcularSaldoTotalAsync(Guid usuarioId)
         {
             return await _meuDbContext.Contas

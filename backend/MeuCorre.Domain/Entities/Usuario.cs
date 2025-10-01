@@ -36,6 +36,11 @@ namespace MeuCorre.Domain.Entities
             DataNascimento = dataNascimento;
         }
 
+        public Usuario(string nome)
+        {
+            Nome = nome;
+        }
+
         public void AtualizarInformacoes(string nome, DateTime dataNascimento)
         {
             ValidarIdadeMinina(dataNascimento);
