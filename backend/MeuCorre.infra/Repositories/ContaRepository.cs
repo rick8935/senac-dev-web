@@ -47,6 +47,12 @@ namespace MeuCorre.infra.Repositories
                .SumAsync(c => c.Saldo);
         }
 
+        public async Task ExcluirAsync(Conta conta)
+        {
+            _meuDbContext.Contas.Remove(conta); 
+            await _meuDbContext.SaveChangesAsync();
+        }
+
         public async Task<bool> ExisteContaComNomeAsync(Guid usuarioId, string nome, Guid? contaIdExcluir = null)
         {
             return await _meuDbContext.Contas

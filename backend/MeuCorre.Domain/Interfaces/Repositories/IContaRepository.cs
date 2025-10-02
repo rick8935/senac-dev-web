@@ -18,5 +18,6 @@ namespace MeuCorre.Application.Interfaces
         Task AdicionarAsync(Conta conta);
         Task<List<Conta>> BuscarContasPorUsuarioIdAsync(Guid usuarioId);
         Task AtualizarAsync(Conta conta);
+        Task ExcluirAsync(Conta conta);
     }
 }
