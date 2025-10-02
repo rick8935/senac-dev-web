@@ -21,6 +21,7 @@ namespace MeuCorre.Domain.Entities
         public DateTime? DiaVencimento { get; set; }
         public string? Cor { get; set; }
         public string? Icone { get; set; }
+        public decimal? LimiteValor { get; set; } 
 
         public virtual Usuario Usuario { get; private set; }
 

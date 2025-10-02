@@ -1,11 +1,13 @@
 ﻿using MediatR;
+using MeuCorre.Application.Interfaces;
+using MeuCorre.Domain.Entities;
+using MeuCorre.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 
 public class ContaResumoResponse
 {
@@ -15,24 +17,6 @@ public class ContaResumoResponse
     public decimal SaldoAtual { get; set; }
     public decimal? LimiteDisponivel { get; set; }
 }
-
-public class Conta
-{
-    public Guid Id { get; set; }
-    public Guid UsuarioId { get; set; }
-    public string Nome { get; set; }
-    public string Tipo { get; set; }
-    public decimal Saldo { get; set; }
-    public bool Ativa { get; set; }
-    public decimal? LimiteTotal { get; set; }
-}
-
-public interface IContaRepository
-{
-    Task<IEnumerable<Conta>> BuscarContasPorUsuarioIdAsync(Guid usuarioId);
-}
-
-#endregion
 
 namespace MeuCorre.Application.UserCases.Contas.Queries
 {
@@ -48,6 +32,7 @@ namespace MeuCorre.Application.UserCases.Contas.Queries
         public string? OrdenarPor { get; set; }
     }
 
+
     public class ListarContasQueryHandler : IRequestHandler<ListarContasQuery, List<ContaResumoResponse>>
     {
         private readonly IContaRepository _contaRepository;
@@ -59,6 +44,7 @@ namespace MeuCorre.Application.UserCases.Contas.Queries
 
         public async Task<List<ContaResumoResponse>> Handle(ListarContasQuery request, CancellationToken cancellationToken)
         {
+
             var contas = await _contaRepository.BuscarContasPorUsuarioIdAsync(request.UsuarioId);
 
             if (contas == null || !contas.Any())
@@ -66,11 +52,16 @@ namespace MeuCorre.Application.UserCases.Contas.Queries
 
             var query = contas.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(request.FiltrarPorTipo))
-                query = query.Where(c => c.Tipo.Equals(request.FiltrarPorTipo, StringComparison.OrdinalIgnoreCase));
+            if (!string.IsNullOrWhiteSpace(request.FiltrarPorTipo) &&
+                Enum.TryParse<TipoConta>(request.FiltrarPorTipo, true, out var tipoConta))
+            {
+                query = query.Where(c => c.Tipo == tipoConta);
+            }
 
             if (request.ApenasAtivas.HasValue)
-                query = query.Where(c => c.Ativa == request.ApenasAtivas.Value);
+            {
+                query = query.Where(c => c.Ativo == request.ApenasAtivas.Value);
+            }
 
             var contasList = query.ToList();
 
@@ -78,18 +69,19 @@ namespace MeuCorre.Application.UserCases.Contas.Queries
             {
                 decimal? limiteDisponivel = null;
 
-                if (c.Tipo.Equals("CartaoCredito", StringComparison.OrdinalIgnoreCase) && c.LimiteTotal.HasValue)
-                    limiteDisponivel = c.LimiteTotal.Value - c.Saldo;
+                if (c.Tipo == TipoConta.CartaoCredito && c.LimiteValor.HasValue)
+                    limiteDisponivel = c.LimiteValor.Value - c.Saldo;
 
                 return new ContaResumoResponse
                 {
                     Id = c.Id,
                     Nome = c.Nome,
-                    Tipo = c.Tipo,
+                    Tipo = c.Tipo.ToString(), // convertendo enum para string
                     SaldoAtual = c.Saldo,
                     LimiteDisponivel = limiteDisponivel
                 };
             }).ToList();
+
 
             if (!string.IsNullOrWhiteSpace(request.OrdenarPor))
             {

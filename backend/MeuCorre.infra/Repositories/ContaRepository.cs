@@ -25,6 +25,13 @@ namespace MeuCorre.infra.Repositories
             await _meuDbContext.SaveChangesAsync();
         }
 
+        public async Task<List<Conta>> BuscarContasPorUsuarioIdAsync(Guid usuarioId)
+        {
+            return await _meuDbContext.Contas
+                .Where(c => c.UsuarioId == usuarioId)
+                .ToListAsync();
+        }
+
         public async Task<decimal> CalcularSaldoTotalAsync(Guid usuarioId)
         {
             return await _meuDbContext.Contas

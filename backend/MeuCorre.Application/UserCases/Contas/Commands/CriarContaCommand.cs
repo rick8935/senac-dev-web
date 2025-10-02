@@ -89,7 +89,7 @@ namespace MeuCorre.Application.UserCases.Contas.Commands
             }
 
             // 6. Criar entidade Conta
-            var conta = new Conta
+            var conta = new Domain.Entities.Conta
             {
                 UsuarioId = request.UsuarioId,
                 Nome = request.Nome,

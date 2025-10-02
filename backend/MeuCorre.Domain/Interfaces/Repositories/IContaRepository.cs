@@ -16,5 +16,6 @@ namespace MeuCorre.Application.Interfaces
         Task<bool> ExisteContaComNomeAsync(Guid usuarioId, string nome, Guid? contaIdExcluir = null);
         Task<decimal> CalcularSaldoTotalAsync(Guid usuarioId);
         Task AdicionarAsync(Conta conta);
+        Task<List<Conta>> BuscarContasPorUsuarioIdAsync(Guid usuarioId);
     }
 }
