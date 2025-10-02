@@ -17,5 +17,6 @@ namespace MeuCorre.Application.Interfaces
         Task<decimal> CalcularSaldoTotalAsync(Guid usuarioId);
         Task AdicionarAsync(Conta conta);
         Task<List<Conta>> BuscarContasPorUsuarioIdAsync(Guid usuarioId);
+        Task AtualizarAsync(Conta conta);
     }
 }

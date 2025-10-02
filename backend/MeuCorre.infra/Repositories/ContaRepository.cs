@@ -25,6 +25,14 @@ namespace MeuCorre.infra.Repositories
             await _meuDbContext.SaveChangesAsync();
         }
 
+        public async Task AtualizarAsync(Conta conta)
+        {
+            _meuDbContext.Contas.Update(conta);
+
+            await _meuDbContext.SaveChangesAsync();
+
+        }
+
         public async Task<List<Conta>> BuscarContasPorUsuarioIdAsync(Guid usuarioId)
         {
             return await _meuDbContext.Contas
