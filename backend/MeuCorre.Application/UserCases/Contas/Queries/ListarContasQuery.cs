@@ -30,6 +30,7 @@ namespace MeuCorre.Application.UserCases.Contas.Queries
         public bool? ApenasAtivas { get; set; }
 
         public string? OrdenarPor { get; set; }
+        public string? Tipo { get; set; }
     }
 
 
