@@ -13,6 +13,7 @@ namespace MeuCorre.infra.Repositories
         {
             _meuDbContext = meuDbContext;
         }
+
         public async Task AdicinarAsync(Categoria categoria)
         {
             _meuDbContext.Categorias.Add(categoria);

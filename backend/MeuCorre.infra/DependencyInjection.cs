@@ -1,4 +1,5 @@
-﻿using MeuCorre.Domain.Interfaces.Repositories;
+﻿using MeuCorre.Application.Interfaces;
+using MeuCorre.Domain.Interfaces.Repositories;
 using MeuCorre.infra.Data.Context;
 using MeuCorre.infra.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace MeuCorre.infra
 
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
-
+            services.AddScoped<IContaRepository, ContaRepository>();
 
             return services;
         }

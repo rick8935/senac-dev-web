@@ -1,6 +1,8 @@
 
 using MeuCorre.Application;
+using MeuCorre.Application.Interfaces;
 using MeuCorre.infra;
+using MeuCorre.infra.Repositories;
 
 namespace MeuCorre
 {
