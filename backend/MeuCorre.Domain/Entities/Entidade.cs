@@ -4,14 +4,16 @@
     {
         public Guid Id { get; private set; }
         public DateTime DataCriacao { get; private set; }
-        public DateTime? DataAtualizacao { get;  set; }
+        public DateTime? DataAtualizacao { get; private set; }
 
-        protected Entidade()
+        //Construtur que cria uma nova entidade
+        protected Entidade() 
         {
             Id = Guid.NewGuid();
             DataCriacao = DateTime.Now;
         }
 
+        //Construtor que cria entidades que já existem
         protected Entidade(Guid id)
         {
             Id = id;

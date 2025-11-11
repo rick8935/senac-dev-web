@@ -1,30 +1,44 @@
 ﻿using MeuCorre.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace MeuCorre.infra.Data.Configurations
+namespace MeuCorre.Infra.Data.Configurations
 {
-
-    class CategoriaConfiguration : IEntityTypeConfiguration<Categoria>
+    internal class CategoriaConfiguration : IEntityTypeConfiguration<Categoria>
     {
         public void Configure(EntityTypeBuilder<Categoria> builder)
         {
+            //Define o nome da tabela no banco de dados.
             builder.ToTable("Categorias");
-            builder.HasKey(categoria => categoria.Id);
-            builder.Property(categoria => categoria.Nome).IsRequired().HasMaxLength(100);
-            builder.Property(categoria => categoria.Ativo).IsRequired();
-            builder.Property(categoria => categoria.DataCriacao).IsRequired();
-            builder.Property(categoria => categoria.DataAtualizacao).IsRequired(false);
-            builder.Property(categoria => categoria.Icone).IsRequired();
-            builder.Property(categoria => categoria.Descricao).IsRequired();
-            builder.Property(categoria => categoria.TipoTransacao).IsRequired();
-            builder.Property(categoria => categoria.Cor).IsRequired();
 
+            //Define a chave primária.
+            builder.HasKey(categoria => categoria.Id);
+            
+            //Define as propriedades da entidade e suas configurações.
+            builder.Property(categoria => categoria.Nome)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            builder.Property(categoria => categoria.Descricao)
+                .HasMaxLength(255);
+
+            builder.Property(categoria => categoria.Cor)
+                .HasMaxLength(10);
+
+            builder.Property(categoria => categoria.Icone)
+                .HasMaxLength(10);
+
+            builder.Property(categoria => categoria.TipoDaTransacao)
+                .IsRequired();
+
+            builder.Property(usuario => usuario.DataCriacao)
+                .IsRequired();
+
+            builder.Property(usuario => usuario.DataAtualizacao)
+                .IsRequired(false);
+
+            //Chaves Estrangeiras FK
+            //Define o relacionamento entre Categoria e Usuario 
             builder.HasOne(categoria => categoria.Usuario)
                 .WithMany(usuario => usuario.Categorias)
                 .HasForeignKey(categoria => categoria.UsuarioId)

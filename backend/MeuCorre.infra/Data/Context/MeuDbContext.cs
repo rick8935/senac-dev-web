@@ -1,39 +1,46 @@
-﻿using MeuCorre.Domain.Entities;
+﻿using System;
+using MeuCorre.Domain.Entities;
 using MeuCorre.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace MeuCorre.infra.Data.Context
+namespace MeuCorre.Infra.Data.Context
 {
     public class MeuDbContext : DbContext
     {
-        public MeuDbContext(DbContextOptions<MeuDbContext> opcoes) : base(opcoes)
+        public MeuDbContext(
+            DbContextOptions<MeuDbContext> opcoes) : base(opcoes)
         {
+            //Desabilita o rastreamento de alterações para melhorar a
+            //performance em consultas somente leitura.
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
+        //Define a ligação entre a classe c# com a tabela do DB.
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
-        public DbSet<Conta> Contas { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            // Aplica as configurações de mapeamento das entidades
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(MeuDbContext).Assembly);
 
+            // Seed: usuário padrão para desenvolvimento / testes
             var usuarioId = Guid.Parse("da3b9f4c-8e6a-4a4f-9e6b-1c2d3e4f5a6b");
 
             modelBuilder.Entity<Usuario>().HasData(new
             {
                 Id = usuarioId,
-                Nome = "Rick",
-                Email = "rick1@gmail.com",
-                Senha = "@123ab",
-                DataNascimento = new DateTime(2006-09-19),
+                Nome = "Welton Castoldi",
+                Email = "weltoncastoldi@hotmail.com",
+                Senha = "123456",
+                DataNascimento = new DateTime(1985, 7, 6),
                 Ativo = true,
-                DataCriacao = DateTime.Now
+                DataCriacao = new DateTime(2025, 1, 1)
             });
 
             // Seed: categorias para o usuário Welton
@@ -46,7 +53,7 @@ namespace MeuCorre.infra.Data.Context
                     Descricao = "Despesas relacionadas à casa e moradia (aluguel, condomínio, contas)",
                     Cor = "#BEE3F8",
                     Icone = "🏠",
-                    TipoTransacao = TipoTransacao.Despesa,
+                    TipoDaTransacao = TipoTransacao.Despesa,
                     Ativo = true,
                     DataCriacao = new DateTime(2025, 1, 1)
                 },
@@ -58,7 +65,7 @@ namespace MeuCorre.infra.Data.Context
                     Descricao = "Gastos com alimentação (supermercado, restaurantes)",
                     Cor = "#DFF7E0",
                     Icone = "🍔",
-                    TipoTransacao = TipoTransacao.Despesa,
+                    TipoDaTransacao = TipoTransacao.Despesa,
                     Ativo = true,
                     DataCriacao = new DateTime(2025, 1, 1)
                 },
@@ -70,7 +77,7 @@ namespace MeuCorre.infra.Data.Context
                     Descricao = "Despesas médicas e de saúde (consultas, medicamentos)",
                     Cor = "#FFD1D1",
                     Icone = "💊",
-                    TipoTransacao = TipoTransacao.Despesa,
+                    TipoDaTransacao = TipoTransacao.Despesa,
                     Ativo = true,
                     DataCriacao = new DateTime(2025, 1, 1)
                 },
@@ -82,7 +89,7 @@ namespace MeuCorre.infra.Data.Context
                     Descricao = "Gastos com transporte (combustível, ônibus, manutenção)",
                     Cor = "#FFF5BA",
                     Icone = "🚗",
-                    TipoTransacao = TipoTransacao.Despesa,
+                    TipoDaTransacao = TipoTransacao.Despesa,
                     Ativo = true,
                     DataCriacao = new DateTime(2025, 1, 1)
                 },
@@ -94,7 +101,7 @@ namespace MeuCorre.infra.Data.Context
                     Descricao = "Despesas com lazer e entretenimento (cinema, viagens)",
                     Cor = "#E8D8FF",
                     Icone = "🎮",
-                    TipoTransacao = TipoTransacao.Despesa,
+                    TipoDaTransacao = TipoTransacao.Despesa,
                     Ativo = true,
                     DataCriacao = new DateTime(2025, 1, 1)
                 },
@@ -106,7 +113,7 @@ namespace MeuCorre.infra.Data.Context
                     Descricao = "Rendimento principal do trabalho (salário)",
                     Cor = "#D1F7FF",
                     Icone = "💼",
-                    TipoTransacao = TipoTransacao.Receita,
+                    TipoDaTransacao = TipoTransacao.Receita,
                     Ativo = true,
                     DataCriacao = new DateTime(2025, 1, 1)
                 },
@@ -118,7 +125,7 @@ namespace MeuCorre.infra.Data.Context
                     Descricao = "Outras receitas diversas não classificadas",
                     Cor = "#F0F0F0",
                     Icone = "📦",
-                    TipoTransacao = TipoTransacao.Receita,
+                    TipoDaTransacao = TipoTransacao.Receita,
                     Ativo = true,
                     DataCriacao = new DateTime(2025, 1, 1)
                 },
@@ -130,21 +137,11 @@ namespace MeuCorre.infra.Data.Context
                     Descricao = "Aplicações financeiras e rendimentos (ações, fundos)",
                     Cor = "#E6F8E6",
                     Icone = "📈",
-                    TipoTransacao = TipoTransacao.Receita,
+                    TipoDaTransacao = TipoTransacao.Receita,
                     Ativo = true,
                     DataCriacao = new DateTime(2025, 1, 1)
-                });
-
-            modelBuilder.Entity<Conta>().HasData(new
-            {
-                Id = Guid.Parse("f3b2a1c4-d5e6-4789-8b0c-2d3e4f5a6b7d"),
-                UsuarioId = usuarioId,
-                Nome = "Conta Carteira",
-                Tipo = TipoConta.Carteira,
-                Saldo = 0m,
-                Ativo = true,
-                DataCriacao = DateTime.Now
-            });
+                }
+            );
         }
     }
 }
