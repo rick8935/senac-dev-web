@@ -2,7 +2,7 @@
 	<div class="card-body">
 		<div class="d-flex">
 			<h5 class="card-title">Categorias</h5>
-			<button class="btn btn-sm btn-primary ms-auto">
+			<button class="btn btn-sm btn-primary ms-auto" (click)="open(modalCategorias)">
 				<i class="ri-add-line me-1"></i> Nova Categoria
 			</button>
 		</div>
@@ -11,7 +11,7 @@
 			<li [ngbNavItem]="1">
 				<a ngbNavLink>Despesas</a>
 				<ng-template ngbNavContent>
-					<table class="table table-striped">
+					<table class="table">
 						<thead>
 							<tr>
 								<th scope="col"></th>
@@ -25,14 +25,19 @@
 							@for (despesa of categorias_despesas; track despesa.nome; let i = $index) {
 							<tr>
 								<td>
-									<app-icone-avatar [icone]="despesa.icone" [cor]="despesa.cor"></app-icone-avatar>
+									<app-icon-avatar [icone]="despesa.icone" [cor]="despesa.cor"></app-icon-avatar>
 								</td>
 								<td>{{ despesa.nome }}</td>
 								<td>{{ despesa.descricao }}</td>
+								<td><app-status-badge [status]="despesa.ativo"></app-status-badge></td>
 								<td>
-									<app-status-badge [status]="despesa.ativo"></app-status-badge>
+									<button type="button" class="btn btn-outline-dark me-1 btn-sm" placement="top" ngbTooltip="Editar categoria">
+										<i class="ri-pencil-line"></i>
+									</button>
+									<button (click)="excluirCategoriaDespesa(despesa.id)" type="button" class="btn btn-outline-danger me-1 btn-sm" placement="top" ngbTooltip="Excluir categoria">
+										<i class="ri-delete-bin-2-line me-1"></i>
+									</button>
 								</td>
-								<td>botao</td>
 							</tr>
 							}
 						</tbody>
@@ -56,14 +61,19 @@
 							@for (receita of categorias_receitas; track receita.nome; let i = $index) {
 							<tr>
 								<td>
-									<app-icone-avatar [icone]="receita.icone" [cor]="receita.cor"></app-icone-avatar>
+									<app-icon-avatar [icone]="receita.icone" [cor]="receita.cor"></app-icon-avatar>
 								</td>
 								<td>{{ receita.nome }}</td>
 								<td>{{ receita.descricao }}</td>
+								<td><app-status-badge [status]="receita.ativo"></app-status-badge></td>
 								<td>
-									<app-status-badge [status]="receita.ativo"></app-status-badge>
+									<button type="button" class="btn btn-outline-dark me-1 btn-sm" placement="top" ngbTooltip="Editar categoria">
+										<i class="ri-pencil-line"></i>
+									</button>
+									<button (click)="excluirCategoriaReceita(receita.id)" type="button" class="btn btn-outline-danger me-1 btn-sm" placement="top" ngbTooltip="Excluir receita">
+										<i class="ri-delete-bin-2-line me-1"></i>
+									</button>
 								</td>
-								<td>botao</td>
 							</tr>
 							}
 						</tbody>
@@ -75,5 +85,41 @@
 		<div [ngbNavOutlet]="nav" class="mt-2"></div>
 
 		<pre>Active: {{ active }}</pre>
+
+		<ng-template #modalCategorias let-modal>
+			<div class="modal-header">
+				<h4 class="modal-title" id="modal-basic-title">Cadastrar categoria</h4>
+				<button type="button" class="btn-close" aria-label="Close"
+					(click)="modal.dismiss('Cross click')"></button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="mb-3">
+						<label for="txtNome" class="form-label">Nome da categoria</label>
+						<input [formControl]="nome" type="text" class="form-control" id="txtNome" />
+					</div>
+					<div class="mb-3">
+						<label for="txtDescricao" class="form-label">Descrição</label>
+						<input [formControl]="descricao" type="text" class="form-control" id="txtDescricao" />
+					</div>
+					<div class="mb-3">
+						<label for="txtCor" class="form-label">Cor</label>
+						<input [formControl]="cor" type="color" class="form-control" id="txtCor" />
+					</div>
+					<div class="mb-3">
+						<label for="txtIcone" class="form-label">Ícone</label>
+						<input [formControl]="icone" type="text" class="form-control" id="txtIcone" placeholder="ri ri-add-line" />
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary"
+					(click)="cadastrarCategoria()">Salvar</button>
+			</div>
+		</ng-template>
+
+		<hr />
+
+		<pre>{{ closeResult() }}</pre>
 	</div>
 </div>

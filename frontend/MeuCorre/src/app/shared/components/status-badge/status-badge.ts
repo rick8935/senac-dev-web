@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Categorias } from '../../../pages/categorias/categorias';
 
 @Component({
   selector: 'app-status-badge',

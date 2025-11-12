@@ -1,7 +1,9 @@
-@if (status == true)
+
+@if(status)
 {
-    <i class="{{status}} badge text-bg-success">Ativo</i>
-}
-@else {
-    <i class="{{status}} badge text-bg-danger">Inativo</i>
+    <span class="badge rounded-pill text-bg-success">Ativo</span>
+} 
+@else
+{
+    <span class="badge rounded-pill text-bg-secondary">Inativo</span>
 }
