@@ -1,11 +1,16 @@
 ﻿using MeuCorre.Domain.Entities;
 using MeuCorre.Domain.Interfaces.Repositories;
-using MeuCorre.Infra.Data.Context;
+using MeuCorre.infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MeuCorre.Infra.Repositories
+namespace MeuCorre.infra.Repositories
 {
-    public class UsuarioRepository : IUsuarioRepository
+    class UsuarioRepository : IUsuarioRepository
     {
         private readonly MeuDbContext _meuDbContext;
         public UsuarioRepository(MeuDbContext meuDbContext)
@@ -33,7 +38,7 @@ namespace MeuCorre.Infra.Repositories
 
         public async Task<Usuario?> ObterUsuarioPorEmail(string email)
         {
-            return await _meuDbContext.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            return await _meuDbContext.Usuarios.FirstOrDefaultAsync(usuario => usuario.Email == email);
         }
 
         public async Task<Usuario?> ObterUsuarioPorId(Guid id)

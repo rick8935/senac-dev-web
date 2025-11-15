@@ -1,6 +1,8 @@
 
 using MeuCorre.Application;
-using MeuCorre.Infra;
+using MeuCorre.Application.Interfaces;
+using MeuCorre.infra;
+using MeuCorre.infra.Repositories;
 
 namespace MeuCorre
 {
@@ -16,9 +18,19 @@ namespace MeuCorre
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication(builder.Configuration);
 
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("*", policy =>
+                {
+                    policy.WithOrigins("")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
 
             var app = builder.Build();
 
@@ -30,6 +42,8 @@ namespace MeuCorre
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("*");
 
             app.UseAuthorization();
 

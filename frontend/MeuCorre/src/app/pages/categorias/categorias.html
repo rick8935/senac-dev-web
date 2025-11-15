@@ -22,7 +22,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							@for (despesa of listaDespesas; track despesa.tipo === 'despesa'; let i = $index) {
+							@for (despesa of listaDespesas(); track despesa.id; let i = $index) {
 							<tr>
 								<td>
 									<app-icon-avatar [icone]="despesa.icone" [cor]="despesa.cor"></app-icon-avatar>
@@ -31,13 +31,17 @@
 								<td>{{ despesa.descricao }}</td>
 								<td><app-status-badge [status]="despesa.ativo"></app-status-badge></td>
 								<td>
-									<button type="button" class="btn btn-sm btn-outline-dark me-1" placement="top" ngbTooltip="Editar categoria">
+									<button (click)="open(modalCategorias, despesa)" type="button" class="btn btn-sm btn-outline-dark me-1" placement="top" ngbTooltip="Editar categoria">
 										<i class="ri-pencil-line"></i>
 									</button>
-									<button (click)="excluirCategoriaDespesa(despesa.id)" type="button" class="btn btn-sm btn-outline-danger" placement="top" ngbTooltip="Excluír categoria">
+									<button (click)="excluirCategoria(despesa.id)" type="button" class="btn btn-sm btn-outline-danger" placement="top" ngbTooltip="Excluír categoria">
 										<i class="ri-delete-bin-2-line"></i>
 									</button>
 								</td>
+							</tr>
+							} @empty {
+							<tr>
+								<td colspan="5" class="text-center text-muted">Nenhuma despesa cadastrada.</td>
 							</tr>
 							}
 						</tbody>
@@ -58,7 +62,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							@for (receita of listaReceitas; track receita.tipo === 'receita'; let i = $index) {
+							@for (receita of listaReceitas(); track receita.id; let i = $index) {
 							<tr>
 								<td>
 									<app-icon-avatar [icone]="receita.icone" [cor]="receita.cor"></app-icon-avatar>
@@ -67,13 +71,17 @@
 								<td>{{ receita.descricao }}</td>
 								<td><app-status-badge [status]="receita.ativo"></app-status-badge></td>
 								<td>
-									<button type="button" class="btn btn-outline-dark me-1 btn-sm" placement="top" ngbTooltip="Editar categoria">
+									<button (click)="open(modalCategorias, receita)" type="button" class="btn btn-sm btn-outline-dark me-1" placement="top" ngbTooltip="Editar categoria">
 										<i class="ri-pencil-line"></i>
 									</button>
-									<button (click)="excluirCategoriaDespesa(receita.id)" type="button" class="btn btn-outline-danger me-1 btn-sm" placement="top" ngbTooltip="Excluir receita">
-										<i class="ri-delete-bin-2-line me-1"></i>
+									<button (click)="excluirCategoria(receita.id)" type="button" class="btn btn-sm btn-outline-danger" placement="top" ngbTooltip="Excluír categoria">
+										<i class="ri-delete-bin-2-line"></i>
 									</button>
 								</td>
+							</tr>
+							} @empty {
+							<tr>
+								<td colspan="5" class="text-center text-muted">Nenhuma receita cadastrada.</td>
 							</tr>
 							}
 						</tbody>
@@ -84,11 +92,11 @@
 
 		<div [ngbNavOutlet]="nav" class="mt-2"></div>
 
-		<pre>Active: {{ active }}</pre>
-
 		<ng-template #modalCategorias let-modal>
 			<div class="modal-header">
-				<h4 class="modal-title" id="modal-basic-title">Cadastrar categoria</h4>
+				<h4 class="modal-title" id="modal-basic-title">
+					{{ editandoCategoria? 'Editar categoria' : 'Nova categoria'}}
+				</h4>
 				<button type="button" class="btn-close" aria-label="Close"
 					(click)="modal.dismiss('Cross click')"></button>
 			</div>
@@ -110,11 +118,18 @@
 						<label for="txtIcone" class="form-label">Ícone</label>
 						<input [formControl]="icone" type="text" class="form-control" id="txtIcone" placeholder="ri ri-add-line" />
 					</div>
+					<div class="mb-3">
+						<label for="cboTipo" class="form-label">Tipo</label>
+						<select [formControl]="tipo" class="form-select" id="cboTipo">
+							<option value="despesa">Despesa</option>
+							<option value="receita">Receita</option>
+						</select>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary"
-					(click)="cadastrarCategoria()">Salvar</button>
+					(click)="editandoCategoria ? editarCategoria() : cadastrarCategoria()">Salvar</button>
 			</div>
 		</ng-template>
 

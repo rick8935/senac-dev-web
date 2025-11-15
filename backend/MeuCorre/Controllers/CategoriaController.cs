@@ -1,15 +1,15 @@
 ﻿using MediatR;
-using MeuCorre.Application.UseCases.Categorias.Commands;
-using MeuCorre.Application.UseCases.Categorias.Dtos;
-using MeuCorre.Application.UseCases.Categorias.Queries;
-using MeuCorre.Application.UseCases.Usuarios.Commands;
+using MeuCorre.Application.UserCases.Categorias.Commands;
+using MeuCorre.Application.UserCases.Categorias.DTOs;
+using MeuCorre.Application.UserCases.Categorias.Queries;
+using MeuCorre.Application.UserCases.Usuarios.Commands;
 using Microsoft.AspNetCore.Mvc;
+using System.Formats.Asn1;
 
 namespace MeuCorre.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-
     public class CategoriaController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -18,17 +18,12 @@ namespace MeuCorre.Controllers
             _mediator = mediator;
         }
 
-
-        /// <summary>
-        /// Cria uma nova categoria para o usuário
-        /// </summary>
-        /// <param name="command">Os dados da nova categoria</param>
-        /// <returns>Retorna uma nova categoria criada</returns>
         [HttpPost]
         [ProducesResponseType(typeof(CategoriaDto), 201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
-        public async Task<IActionResult> CriarCategoria([FromBody] CriarCategoriaCommad command)
+
+        public async Task<IActionResult> CriarCategoria([FromBody] CriarCategoriaCommand command)
         {
             var (mensagem, sucesso) = await _mediator.Send(command);
             if (sucesso)
@@ -42,6 +37,7 @@ namespace MeuCorre.Controllers
         }
 
         [HttpPut]
+
         public async Task<IActionResult> AtualizarCategoria([FromBody] AtualizarCategoriaCommand command)
         {
             var (mensagem, sucesso) = await _mediator.Send(command);
@@ -56,12 +52,13 @@ namespace MeuCorre.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeletarCategoria([FromBody] DeletarCategoriaCommad command)
+
+        public async Task<IActionResult> DeletarCategoria([FromBody] DeletarCategoriaCommand command)
         {
             var (mensagem, sucesso) = await _mediator.Send(command);
-            if (sucesso)
+            if(sucesso)
             {
-                return NoContent();
+                return Ok(mensagem);
             }
             else
             {
@@ -74,16 +71,16 @@ namespace MeuCorre.Controllers
         {
             var command = new AtivarCategoriaCommand { CategoriaId = id };
             var (mensagem, sucesso) = await _mediator.Send(command);
-            if (sucesso)
+            if(sucesso)
             {
                 return NoContent();
             }
             else
             {
                 return BadRequest(mensagem);
+
             }
         }
-
 
         [HttpPatch("inativar/{id}")]
         public async Task<IActionResult> InativarCategoria(Guid id)
@@ -100,7 +97,6 @@ namespace MeuCorre.Controllers
             }
         }
 
-
         [HttpGet]
         public async Task<IActionResult> ObterCategoriasPorUsuario([FromQuery] ListarTodasCategoriasQuery query)
         {
@@ -109,16 +105,19 @@ namespace MeuCorre.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> ObterCategoriaPorId(Guid id)
+
+        public async Task<IActionResult> ObterCategoriasPorId(Guid id)
         {
             var query = new ObterCategoriaQuery() { CategoriaId = id };
             var categoria = await _mediator.Send(query);
-            if (categoria == null)
+            if(categoria == null)
             {
                 return NotFound("Categoria não encontrada");
             }
-            return Ok(categoria);
+            else
+            {
+                return Ok(categoria);
+            }
         }
     }
-
 }

@@ -7,12 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Mappers\" />
     <Folder Include="Common\" />
     <Folder Include="Validators\" />
-    <Folder Include="UseCases\Relatorios\" />
-    <Folder Include="UseCases\Transacoes\" />
+    <Folder Include="UserCases\Relatorios\" />
+    <Folder Include="UserCases\Transacoes\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MeuCorre.Domain\MeuCorre.Domain.csproj" />
+    <ProjectReference Include="..\MeuCorre.infra\MeuCorre.infra.csproj" />
   </ItemGroup>
 
 </Project>

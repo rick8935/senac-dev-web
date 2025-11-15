@@ -1,0 +1,20 @@
+import { inject, Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { CategoriaModel } from "./models/categoria.model";
+import { HttpClient } from "@angular/common/http";
+
+@Injectable({
+    providedIn: 'root'
+})
+export class CategoriaService {
+    private apiUrl = 'https://localhost:7160/Categoria';
+
+    private http = inject(HttpClient);
+
+    obterTodasPorUsuario() : Observable<CategoriaModel[]>
+    {
+        const result = this.http.get<CategoriaModel[]>(`${this.apiUrl}/obterTodasPorUsuario`);
+        console.log(result);
+        return result;
+    }
+}
